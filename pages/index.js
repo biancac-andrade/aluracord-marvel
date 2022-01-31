@@ -1,34 +1,8 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import appConfig from '../config.json';
+import React from 'react'
+import {useRouter} from 'next/router'
 
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */ 
-      html, body, #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */ 
-    `}</style>
-  );
-}
 
 function Titulo(props) {
   const Tag = props.tag || 'h1';
@@ -60,11 +34,14 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-  const username = 'peas';
-
+ //const username = 'peas';
+  // const stateDoReact = React.useState('omariosouto')
+  // console.log('stateDoReact', stateDoReact)
+  const [username, setUsername] = React.useState('biancac-andrade')
+  const roteamento = useRouter();
+  //console.log(roteamento)
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -73,7 +50,7 @@ export default function PaginaInicial() {
         }}
       >
         <Box
-          styleSheet={{
+           styleSheet={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -84,12 +61,18 @@ export default function PaginaInicial() {
             width: '100%', maxWidth: '700px',
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
-            backgroundColor: appConfig.theme.colors.marvel['004'],
+            backgroundColor: appConfig.theme.colors.marvel['014'],
           }}
         >
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (infoDoEvento) {
+              infoDoEvento.preventDefault();
+              console.log('alguem submeteu o form')
+              //window.location.href = '/chat';
+              roteamento.push(`/chat?username=${username}`);
+          }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -100,7 +83,28 @@ export default function PaginaInicial() {
               {appConfig.name}
             </Text>
 
+            {/* <input
+              type="text"
+              value={username}
+              onchange={function (event) {
+                console.log('usuario digitou', event.target.value);
+                // onde ta o valor  
+                const valor = event.target.value
+                // trocar o valor da variavel
+                //atraves do react e avise quem precisa
+                setUsername(valor)
+              }}
+            /> */}
             <TextField
+              value={username}
+              onchange={function (event) {
+                console.log('usuario digitou', event.target.value);
+                // onde ta o valor  
+                const valor = event.target.value
+                // trocar o valor da variavel
+                //atraves do react e avise quem precisa
+                setUsername(valor)
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
